@@ -8,7 +8,7 @@ class CountersModel {
         return counters[index]
     }
 
-    private fun next(index: Int): Int {
+    fun next(index: Int): Int {
         counters[index]++
         return getCurrent(index)
     }
