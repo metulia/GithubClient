@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), MainView {
         setContentView(binding?.root)
 
         val listener = View.OnClickListener {
-            presenter.counterClick(it.id)
+            presenter.buttonClick(it.id)
         }
 
         binding?.btnCounter1?.setOnClickListener(listener)
@@ -29,9 +29,15 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun setButtonText(index: Int, text: String) {
         when (index) {
-            0 -> binding?.btnCounter1?.text = text
-            1 -> binding?.btnCounter2?.text = text
-            2 -> binding?.btnCounter3?.text = text
+            FIRST_INDEX -> binding?.btnCounter1?.text = text
+            SECOND_INDEX -> binding?.btnCounter2?.text = text
+            THIRD_INDEX -> binding?.btnCounter3?.text = text
         }
+    }
+
+    companion object {
+        const val FIRST_INDEX = 0
+        const val SECOND_INDEX = 1
+        const val THIRD_INDEX = 2
     }
 }
