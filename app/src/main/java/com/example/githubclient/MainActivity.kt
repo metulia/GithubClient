@@ -7,7 +7,7 @@ import com.example.githubclient.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), MainView {
 
-    private var binding: ActivityMainBinding? = null
+    private lateinit var binding: ActivityMainBinding
 
     private val presenter = MainPresenter(this)
 
@@ -16,28 +16,24 @@ class MainActivity : AppCompatActivity(), MainView {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        setContentView(binding?.root)
+        setContentView(binding.root)
 
-        val listener = View.OnClickListener {
-            presenter.buttonClick(it.id)
-        }
-
-        binding?.btnCounter1?.setOnClickListener(listener)
-        binding?.btnCounter2?.setOnClickListener(listener)
-        binding?.btnCounter3?.setOnClickListener(listener)
+        binding.btnCounter1.setOnClickListener(View.OnClickListener {
+            presenter.buttonClick(MainPresenter.FIRST_BUTTON)
+        })
+        binding.btnCounter2.setOnClickListener(View.OnClickListener {
+            presenter.buttonClick(MainPresenter.SECOND_BUTTON)
+        })
+        binding.btnCounter3.setOnClickListener(View.OnClickListener {
+            presenter.buttonClick(MainPresenter.THIRD_BUTTON)
+        })
     }
 
     override fun setButtonText(index: Int, text: String) {
         when (index) {
-            FIRST_INDEX -> binding?.btnCounter1?.text = text
-            SECOND_INDEX -> binding?.btnCounter2?.text = text
-            THIRD_INDEX -> binding?.btnCounter3?.text = text
+            MainPresenter.FIRST_BUTTON -> binding.btnCounter1.text = text
+            MainPresenter.SECOND_BUTTON -> binding.btnCounter2.text = text
+            MainPresenter.THIRD_BUTTON -> binding.btnCounter3.text = text
         }
-    }
-
-    companion object {
-        const val FIRST_INDEX = 0
-        const val SECOND_INDEX = 1
-        const val THIRD_INDEX = 2
     }
 }
