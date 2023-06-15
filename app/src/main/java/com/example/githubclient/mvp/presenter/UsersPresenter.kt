@@ -5,14 +5,14 @@ import com.example.githubclient.mvp.model.GithubUsersRepo
 import com.example.githubclient.mvp.presenter.list.IUserListPresenter
 import com.example.githubclient.mvp.view.UsersView
 import com.example.githubclient.mvp.view.list.UserItemView
-import com.example.githubclient.navigation.IScreen
+import com.example.githubclient.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 
 class UsersPresenter(
     private val usersRepo: GithubUsersRepo,
     private val router: Router,
-    private val screen: IScreen
+    private val screen: IScreens
 ) :
     MvpPresenter<UsersView>() {
     class UsersListPresenter : IUserListPresenter {
@@ -26,7 +26,6 @@ class UsersPresenter(
         }
 
         override fun getCount() = users.size
-
     }
 
     val usersListPresenter = UsersListPresenter()

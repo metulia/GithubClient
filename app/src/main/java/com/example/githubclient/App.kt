@@ -1,6 +1,7 @@
 package com.example.githubclient
 
 import android.app.Application
+import com.example.githubclient.navigation.AndroidScreens
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 
@@ -15,6 +16,8 @@ class App : Application() {
 
     val navigatorHolder get() = cicerone.getNavigatorHolder()
     val router get() = cicerone.router
+
+    val screens get() = AndroidScreens()
 
     override fun onCreate() {
         super.onCreate()
