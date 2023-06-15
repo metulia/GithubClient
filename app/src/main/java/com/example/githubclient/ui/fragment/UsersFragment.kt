@@ -9,6 +9,7 @@ import com.example.githubclient.databinding.FragmentUsersBinding
 import com.example.githubclient.mvp.model.GithubUsersRepo
 import com.example.githubclient.mvp.presenter.UsersPresenter
 import com.example.githubclient.mvp.view.UsersView
+import com.example.githubclient.navigation.UserScreen
 import com.example.githubclient.ui.activity.BackButtonListener
 import com.example.githubclient.ui.adapter.UsersRVAdapter
 import moxy.MvpAppCompatFragment
@@ -22,7 +23,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     var adapter: UsersRVAdapter? = null
 
     private val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(GithubUsersRepo(), App.instance.router)
+        UsersPresenter(GithubUsersRepo(), App.instance.router, UserScreen())
     }
 
     companion object {
