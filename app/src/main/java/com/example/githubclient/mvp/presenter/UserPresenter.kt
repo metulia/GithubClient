@@ -9,6 +9,7 @@ class UserPresenter(private val router: Router) :
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+        // TODO viewState.setUserLogin()
 
     }
 

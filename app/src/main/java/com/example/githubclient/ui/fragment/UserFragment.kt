@@ -40,8 +40,8 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
     override fun backPressed() = presenter.backPressed()
 
-    override fun init() {
-        //TODO
+    override fun setUserLogin(login: String) {
+        binding.userLogin.text = login
     }
 
 }
