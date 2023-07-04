@@ -29,6 +29,11 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         fun newInstance() = UsersFragment()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter.execFromIterable()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,6 +46,8 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
+        // TODO dispose
     }
 
     override fun init() {
