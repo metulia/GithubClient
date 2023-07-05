@@ -1,16 +1,61 @@
 package com.example.githubclient.mvp.presenter
 
+import com.example.githubclient.mvp.model.entity.GithubRepository
+import com.example.githubclient.mvp.model.entity.GithubUser
+import com.example.githubclient.mvp.model.repo.retrofit.IGithubUserRepositoriesRepo
+import com.example.githubclient.mvp.presenter.list.IUserRepositoryListPresenter
 import com.example.githubclient.mvp.view.UserView
+import com.example.githubclient.mvp.view.list.UserRepositoryItemView
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 
-class UserPresenter(private val router: Router) :
+class UserPresenter(
+    private val user: GithubUser,
+    private val uiScheduler: Scheduler,
+    private val repositoriesRepo: IGithubUserRepositoriesRepo,
+    private val router: Router
+) :
     MvpPresenter<UserView>() {
+
+    class UserRepositoriesListPresenter : IUserRepositoryListPresenter {
+
+        val repositories = mutableListOf<GithubRepository>()
+
+        override var itemClickListener: ((UserRepositoryItemView) -> Unit)? = null
+        override fun getCount() = repositories.size
+
+        override fun bindView(view: UserRepositoryItemView) {
+            val repository = repositories[view.pos]
+            repository.name?.let { view.setName(it) }
+        }
+    }
+
+    val userRepositoriesListPresenter = UserRepositoriesListPresenter()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        // TODO viewState.setUserLogin()
+        viewState.init()
 
+        loadData()
+
+        user.login?.let { viewState.setUserLogin(it) }
+
+        userRepositoriesListPresenter.itemClickListener = { itemView ->
+            val repository = userRepositoriesListPresenter.repositories[itemView.pos]
+        }
+    }
+
+    private fun loadData() {
+        repositoriesRepo.getRepositories(user)
+            ?.observeOn(uiScheduler)
+            ?.subscribe({ repositories ->
+                userRepositoriesListPresenter.repositories.clear()
+                userRepositoriesListPresenter.repositories.addAll(repositories)
+                viewState.updateList()
+            }, {
+                println("Error: ${it.message}")
+            })
     }
 
     fun backPressed(): Boolean {
