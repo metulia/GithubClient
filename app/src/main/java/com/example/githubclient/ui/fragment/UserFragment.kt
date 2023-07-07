@@ -10,6 +10,7 @@ import com.example.githubclient.mvp.model.api.ApiHolder
 import com.example.githubclient.mvp.model.entity.GithubUser
 import com.example.githubclient.mvp.model.entity.room.dao.Database
 import com.example.githubclient.mvp.model.repo.retrofit.RetrofitGithubUserRepositoriesRepo
+import com.example.githubclient.mvp.model.room.cache.RoomGithubRepositoriesCache
 import com.example.githubclient.mvp.presenter.UserPresenter
 import com.example.githubclient.mvp.view.UserView
 import com.example.githubclient.ui.activity.BackButtonListener
@@ -32,8 +33,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
             RetrofitGithubUserRepositoriesRepo(
                 ApiHolder.api,
                 AndroidNetworkStatus(App.instance),
-                Database.getInstance()
-            ),
+                RoomGithubRepositoriesCache(Database.getInstance())),
             App.instance.router
         )
     }
