@@ -6,49 +6,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubclient.App
 import com.example.githubclient.databinding.FragmentUserBinding
-import com.example.githubclient.mvp.model.api.ApiHolder
 import com.example.githubclient.mvp.model.entity.GithubUser
-import com.example.githubclient.mvp.model.entity.room.dao.Database
-import com.example.githubclient.mvp.model.network.INetworkStatus
-import com.example.githubclient.mvp.model.repo.retrofit.RetrofitGithubUserRepositoriesRepo
-import com.example.githubclient.mvp.model.room.cache.RoomGithubRepositoriesCache
 import com.example.githubclient.mvp.presenter.UserPresenter
 import com.example.githubclient.mvp.view.UserView
-import com.example.githubclient.navigation.IScreens
 import com.example.githubclient.ui.activity.BackButtonListener
 import com.example.githubclient.ui.adapter.UserRepositoriesRVAdapter
-import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import javax.inject.Inject
 
 class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     private var _binding: FragmentUserBinding? = null
     private val binding
         get() = _binding!!
 
-    @Inject
-    lateinit var database: Database
-
-    @Inject
-    lateinit var router: Router
-
-    @Inject
-    lateinit var networkStatus: INetworkStatus
-
     val presenter: UserPresenter by moxyPresenter {
         val user = arguments?.getParcelable<GithubUser>(USER_ARG) as GithubUser
-        UserPresenter(
-            user,
-            AndroidSchedulers.mainThread(),
-            RetrofitGithubUserRepositoriesRepo(
-                ApiHolder.api,
-                networkStatus,
-                RoomGithubRepositoriesCache(database)
-            ),
-            router
-        )
+        UserPresenter(user)
     }
 
     var adapter: UserRepositoriesRVAdapter? = null

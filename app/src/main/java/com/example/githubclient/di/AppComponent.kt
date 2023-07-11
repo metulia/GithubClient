@@ -4,8 +4,8 @@ import com.example.githubclient.di.module.*
 import com.example.githubclient.mvp.presenter.MainPresenter
 import com.example.githubclient.mvp.presenter.UsersPresenter
 import com.example.githubclient.ui.activity.MainActivity
+import com.example.githubclient.ui.adapter.UsersRVAdapter
 import com.example.githubclient.ui.fragment.UserFragment
-import com.example.githubclient.ui.fragment.UsersFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -16,7 +16,8 @@ import javax.inject.Singleton
         CiceroneModule::class,
         CacheModule::class,
         ApiModule::class,
-        RepoModule::class
+        RepoModule::class,
+        ImageLoaderModule::class
     ]
 )
 
@@ -24,7 +25,7 @@ interface AppComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(mainPresenter: MainPresenter)
     fun inject(usersPresenter: UsersPresenter)
+    fun inject(usersRVAdapter: UsersRVAdapter)
 
-    fun inject(usersFragment: UsersFragment)
     fun inject(userFragment: UserFragment)
 }
