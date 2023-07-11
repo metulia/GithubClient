@@ -6,16 +6,22 @@ import com.example.githubclient.R
 import com.example.githubclient.databinding.ActivityMainBinding
 import com.example.githubclient.mvp.presenter.MainPresenter
 import com.example.githubclient.mvp.view.MainView
-import com.example.githubclient.navigation.AndroidScreens
+import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
 class MainActivity : MvpAppCompatActivity(), MainView {
     private var vb: ActivityMainBinding? = null
 
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
+
     private val presenter by moxyPresenter {
-        MainPresenter(App.instance.router, AndroidScreens())
+        MainPresenter().apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     private val navigator = AppNavigator(this, R.id.container)
@@ -25,18 +31,20 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb?.root)
+
+        App.instance.appComponent.inject(this)
     }
 
     override fun onResumeFragments() {
         super.onResumeFragments()
 
-        App.instance.navigatorHolder.setNavigator(navigator)
+        navigatorHolder.setNavigator(navigator)
     }
 
     override fun onPause() {
         super.onPause()
 
-        App.instance.navigatorHolder.removeNavigator()
+        navigatorHolder.removeNavigator()
     }
 
     override fun onBackPressed() {
@@ -45,7 +53,6 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                 return
             }
         }
-
         presenter.backClicked()
     }
 }

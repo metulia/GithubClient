@@ -9,21 +9,33 @@ import com.example.githubclient.databinding.FragmentUserBinding
 import com.example.githubclient.mvp.model.api.ApiHolder
 import com.example.githubclient.mvp.model.entity.GithubUser
 import com.example.githubclient.mvp.model.entity.room.dao.Database
+import com.example.githubclient.mvp.model.network.INetworkStatus
 import com.example.githubclient.mvp.model.repo.retrofit.RetrofitGithubUserRepositoriesRepo
 import com.example.githubclient.mvp.model.room.cache.RoomGithubRepositoriesCache
 import com.example.githubclient.mvp.presenter.UserPresenter
 import com.example.githubclient.mvp.view.UserView
+import com.example.githubclient.navigation.IScreens
 import com.example.githubclient.ui.activity.BackButtonListener
 import com.example.githubclient.ui.adapter.UserRepositoriesRVAdapter
-import com.example.githubclient.ui.network.AndroidNetworkStatus
+import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
 class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     private var _binding: FragmentUserBinding? = null
     private val binding
         get() = _binding!!
+
+    @Inject
+    lateinit var database: Database
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var networkStatus: INetworkStatus
 
     val presenter: UserPresenter by moxyPresenter {
         val user = arguments?.getParcelable<GithubUser>(USER_ARG) as GithubUser
@@ -32,9 +44,10 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
             AndroidSchedulers.mainThread(),
             RetrofitGithubUserRepositoriesRepo(
                 ApiHolder.api,
-                AndroidNetworkStatus(App.instance),
-                RoomGithubRepositoriesCache(Database.getInstance())),
-            App.instance.router
+                networkStatus,
+                RoomGithubRepositoriesCache(database)
+            ),
+            router
         )
     }
 
@@ -47,6 +60,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
             arguments = Bundle().apply {
                 putParcelable(USER_ARG, user)
             }
+            App.instance.appComponent.inject(this)
         }
     }
 
