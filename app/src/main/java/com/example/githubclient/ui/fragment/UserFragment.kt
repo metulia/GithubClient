@@ -21,7 +21,9 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
     val presenter: UserPresenter by moxyPresenter {
         val user = arguments?.getParcelable<GithubUser>(USER_ARG) as GithubUser
-        UserPresenter(user)
+        UserPresenter(user).apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     var adapter: UserRepositoriesRVAdapter? = null
@@ -33,7 +35,6 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
             arguments = Bundle().apply {
                 putParcelable(USER_ARG, user)
             }
-            App.instance.appComponent.inject(this)
         }
     }
 
