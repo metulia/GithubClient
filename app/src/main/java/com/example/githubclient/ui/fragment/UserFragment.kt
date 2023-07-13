@@ -22,7 +22,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     val presenter: UserPresenter by moxyPresenter {
         val user = arguments?.getParcelable<GithubUser>(USER_ARG) as GithubUser
         UserPresenter(user).apply {
-            App.instance.appComponent.inject(this)
+            App.instance.initRepositorySubcomponent()?.inject(this)
         }
     }
 
