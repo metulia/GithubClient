@@ -9,14 +9,19 @@ import com.example.githubclient.mvp.view.list.UserRepositoryItemView
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
+import javax.inject.Inject
 
 class UserPresenter(
-    private val user: GithubUser,
-    private val uiScheduler: Scheduler,
-    private val repositoriesRepo: IGithubUserRepositoriesRepo,
-    private val router: Router
+    private val user: GithubUser
 ) :
     MvpPresenter<UserView>() {
+
+    @Inject
+    lateinit var repositoriesRepo: IGithubUserRepositoriesRepo
+    @Inject
+    lateinit var router: Router
+    @Inject
+    lateinit var uiScheduler: Scheduler
 
     class UserRepositoriesListPresenter : IUserRepositoryListPresenter {
 

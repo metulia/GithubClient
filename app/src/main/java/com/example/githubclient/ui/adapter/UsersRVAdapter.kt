@@ -8,14 +8,17 @@ import com.example.githubclient.databinding.ItemUserBinding
 import com.example.githubclient.mvp.presenter.list.IUserListPresenter
 import com.example.githubclient.mvp.view.list.IImageLoader
 import com.example.githubclient.mvp.view.list.UserItemView
+import javax.inject.Inject
 
 const val INVALID_INDEX = -1
 
 class UsersRVAdapter(
-    private val presenter: IUserListPresenter, val imageLoader:
-    IImageLoader<ImageView>
+    private val presenter: IUserListPresenter
 ) :
     RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
+
+    @Inject
+    lateinit var imageLoader: IImageLoader<ImageView>
 
     inner class ViewHolder(private val vb: ItemUserBinding) : RecyclerView.ViewHolder(vb.root),
         UserItemView {
