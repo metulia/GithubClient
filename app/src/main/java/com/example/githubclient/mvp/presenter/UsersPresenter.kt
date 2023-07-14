@@ -1,5 +1,6 @@
 package com.example.githubclient.mvp.presenter
 
+import com.example.githubclient.di.user.module.IUserScopeContainer
 import com.example.githubclient.mvp.model.entity.GithubUser
 import com.example.githubclient.mvp.model.repo.IGithubUsersRepo
 import com.example.githubclient.mvp.presenter.list.IUserListPresenter
@@ -18,12 +19,18 @@ class UsersPresenter() :
 
     @Inject
     lateinit var usersRepo: IGithubUsersRepo
+
     @Inject
     lateinit var router: Router
+
     @Inject
     lateinit var screens: IScreens
+
     @Inject
     lateinit var uiScheduler: Scheduler
+
+    @Inject
+    lateinit var userScopeContainer: IUserScopeContainer
 
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()
@@ -92,5 +99,10 @@ class UsersPresenter() :
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        userScopeContainer.releaseUserScope()
+        super.onDestroy()
     }
 }

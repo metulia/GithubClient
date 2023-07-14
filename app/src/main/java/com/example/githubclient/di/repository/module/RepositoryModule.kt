@@ -1,30 +1,25 @@
-package com.example.githubclient.di.module
+package com.example.githubclient.di.repository.module
 
+import com.example.githubclient.App
+import com.example.githubclient.di.repository.RepositoryScope
 import com.example.githubclient.mvp.model.api.IDataSource
+import com.example.githubclient.mvp.model.entity.room.dao.Database
 import com.example.githubclient.mvp.model.network.INetworkStatus
-import com.example.githubclient.mvp.model.repo.IGithubUsersRepo
 import com.example.githubclient.mvp.model.repo.retrofit.IGithubUserRepositoriesRepo
 import com.example.githubclient.mvp.model.repo.retrofit.RetrofitGithubUserRepositoriesRepo
-import com.example.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo
 import com.example.githubclient.mvp.model.room.cache.IRoomGithubRepositoriesCache
-import com.example.githubclient.mvp.model.room.cache.IRoomGithubUsersCache
+import com.example.githubclient.mvp.model.room.cache.RoomGithubRepositoriesCache
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
-class RepoModule {
+open class RepositoryModule {
 
-    @Singleton
     @Provides
-    fun usersRepo(
-        api: IDataSource, networkStatus: INetworkStatus, cache:
-        IRoomGithubUsersCache
-    ): IGithubUsersRepo = RetrofitGithubUsersRepo(
-        api, networkStatus, cache
-    )
+    fun repositoriesCache(database: Database): IRoomGithubRepositoriesCache =
+        RoomGithubRepositoriesCache(database)
 
-    @Singleton
+    @RepositoryScope
     @Provides
     fun repositoriesRepo(
         api: IDataSource, networkStatus: INetworkStatus, cache:
@@ -32,4 +27,8 @@ class RepoModule {
     ): IGithubUserRepositoriesRepo = RetrofitGithubUserRepositoriesRepo(
         api, networkStatus, cache
     )
+
+    @RepositoryScope
+    @Provides
+    open fun scopeContainer(app: App): IRepositoryScopeContainer = app
 }
