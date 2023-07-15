@@ -10,8 +10,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class RetrofitGithubUserRepositoriesRepo(
     private val api: IDataSource,
-    val networkStatus: INetworkStatus,
-    val roomGithubReposCache: IRoomGithubRepositoriesCache
+    private val networkStatus: INetworkStatus,
+    private val roomGithubReposCache: IRoomGithubRepositoriesCache
 ) : IGithubUserRepositoriesRepo {
 
     override fun getRepositories(user: GithubUser): Single<List<GithubRepository>>? =

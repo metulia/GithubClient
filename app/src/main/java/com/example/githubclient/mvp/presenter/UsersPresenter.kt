@@ -8,9 +8,7 @@ import com.example.githubclient.mvp.view.UsersView
 import com.example.githubclient.mvp.view.list.UserItemView
 import com.example.githubclient.navigation.IScreens
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import javax.inject.Inject
 
@@ -61,26 +59,6 @@ class UsersPresenter() :
         usersListPresenter.itemClickListener = { itemView ->
             val user = usersListPresenter.users[itemView.pos]
             router.navigateTo(screens.user(user))
-        }
-    }
-
-    private val usersObserver = object : Observer<GithubUser> {
-        var disposable: Disposable? = null
-        override fun onSubscribe(d: Disposable) {
-            disposable = d
-            println("onSubscribe")
-        }
-
-        override fun onError(e: Throwable) {
-            println("onError: ${e.message}")
-        }
-
-        override fun onComplete() {
-            println("onComplete")
-        }
-
-        override fun onNext(t: GithubUser) {
-            usersListPresenter.users.add(t)
         }
     }
 

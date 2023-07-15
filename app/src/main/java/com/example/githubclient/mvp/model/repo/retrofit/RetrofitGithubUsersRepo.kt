@@ -9,8 +9,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class RetrofitGithubUsersRepo(
     private val api: IDataSource,
-    val networkStatus: INetworkStatus,
-    val roomGithubUsersCache: IRoomGithubUsersCache
+    private val networkStatus: INetworkStatus,
+    private val roomGithubUsersCache: IRoomGithubUsersCache
 ) : IGithubUsersRepo {
     override fun getUsers() = networkStatus.isOnlineSingle().flatMap { isOnline ->
         if (isOnline) {

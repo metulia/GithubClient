@@ -7,6 +7,7 @@ import com.example.githubclient.mvp.model.repo.retrofit.IGithubUserRepositoriesR
 import com.example.githubclient.mvp.presenter.list.IUserRepositoryListPresenter
 import com.example.githubclient.mvp.view.UserView
 import com.example.githubclient.mvp.view.list.UserRepositoryItemView
+import com.example.githubclient.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
@@ -21,6 +22,8 @@ class UserPresenter(
     lateinit var repositoriesRepo: IGithubUserRepositoriesRepo
     @Inject
     lateinit var router: Router
+    @Inject
+    lateinit var screens: IScreens
     @Inject
     lateinit var uiScheduler: Scheduler
     @Inject
@@ -51,6 +54,7 @@ class UserPresenter(
 
         userRepositoriesListPresenter.itemClickListener = { itemView ->
             val repository = userRepositoriesListPresenter.repositories[itemView.pos]
+            router.navigateTo(screens.repoInfo(repository))
         }
     }
 
