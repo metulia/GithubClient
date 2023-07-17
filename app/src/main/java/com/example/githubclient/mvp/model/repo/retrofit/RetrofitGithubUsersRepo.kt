@@ -2,7 +2,6 @@ package com.example.githubclient.mvp.model.repo.retrofit
 
 import com.example.githubclient.mvp.model.api.IDataSource
 import com.example.githubclient.mvp.model.network.INetworkStatus
-import com.example.githubclient.mvp.model.repo.IGithubUsersRepo
 import com.example.githubclient.mvp.model.room.cache.IRoomGithubUsersCache
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers

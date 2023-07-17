@@ -4,6 +4,7 @@ import com.example.githubclient.di.module.*
 import com.example.githubclient.di.user.UserSubcomponent
 import com.example.githubclient.mvp.presenter.MainPresenter
 import com.example.githubclient.ui.activity.MainActivity
+import com.example.githubclient.ui.fragment.UserFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -23,4 +24,5 @@ interface AppComponent {
 
     fun inject(mainActivity: MainActivity)
     fun inject(mainPresenter: MainPresenter)
+    fun inject(userFragment: UserFragment)
 }

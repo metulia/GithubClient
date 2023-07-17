@@ -2,7 +2,7 @@ package com.example.githubclient.mvp.presenter
 
 import com.example.githubclient.di.user.module.IUserScopeContainer
 import com.example.githubclient.mvp.model.entity.GithubUser
-import com.example.githubclient.mvp.model.repo.IGithubUsersRepo
+import com.example.githubclient.mvp.model.repo.retrofit.IGithubUsersRepo
 import com.example.githubclient.mvp.presenter.list.IUserListPresenter
 import com.example.githubclient.mvp.view.UsersView
 import com.example.githubclient.mvp.view.list.UserItemView

@@ -63,5 +63,17 @@ class RepoInfoFragment : MvpAppCompatFragment(), RepoInfoView, BackButtonListene
         binding.tvLanguage.text = text
     }
 
+    override fun setDescription(text: String) {
+        binding.tvDescription.text = text
+    }
+
+    override fun setCreatedAt(text: String) {
+        binding.tvCreatedAt.text = text
+    }
+
+    override fun setUpdatedAt(text: String) {
+        binding.tvUpdatedAt.text = text
+    }
+
     override fun backPressed() = presenter.backPressed()
 }

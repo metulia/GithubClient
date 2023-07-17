@@ -11,4 +11,7 @@ interface RepoInfoView : MvpView {
     fun setTitle(text: String)
     fun setForksCount(text: String)
     fun setLanguage(text: String)
+    fun setDescription(text: String)
+    fun setCreatedAt(text: String)
+    fun setUpdatedAt(text: String)
 }

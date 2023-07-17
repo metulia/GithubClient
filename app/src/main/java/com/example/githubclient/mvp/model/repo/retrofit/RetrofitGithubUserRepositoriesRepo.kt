@@ -26,7 +26,7 @@ class RetrofitGithubUserRepositoriesRepo(
                             }
                         }
                 } ?: Single.error<List<GithubRepository>>(
-                    RuntimeException("User has no repos url ")
+                    RuntimeException("User has no repos url")
                 ).subscribeOn(Schedulers.io())
             } else {
                 Single.fromCallable {

@@ -51,6 +51,7 @@ class UserPresenter(
         loadData()
 
         user.login?.let { viewState.setUserLogin(it) }
+        user.avatarUrl?.let { viewState.setUserAvatar(it) }
 
         userRepositoriesListPresenter.itemClickListener = { itemView ->
             val repository = userRepositoriesListPresenter.repositories[itemView.pos]

@@ -22,6 +22,9 @@ class RepoInfoPresenter(private val githubRepository: GithubRepository) :
         viewState.setTitle(githubRepository.name ?: "")
         viewState.setForksCount((githubRepository.forksCount ?: 0).toString())
         viewState.setLanguage(githubRepository.language ?: "")
+        viewState.setDescription(githubRepository.description ?: "")
+        viewState.setCreatedAt(githubRepository.created_at ?: "")
+        viewState.setUpdatedAt(githubRepository.updated_at ?: "")
     }
 
     fun backPressed(): Boolean {
