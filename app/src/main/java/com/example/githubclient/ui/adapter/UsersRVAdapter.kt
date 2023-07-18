@@ -50,5 +50,4 @@ class UsersRVAdapter(
         presenter.bindView(holder.apply {
             pos = position
         })
-
 }

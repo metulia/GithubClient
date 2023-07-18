@@ -12,7 +12,7 @@ class UserRepositoriesRVAdapter(val presenter: IUserRepositoryListPresenter) :
 
     inner class ViewHolder(val vb: ItemUserRepositoryBinding) : RecyclerView.ViewHolder(vb.root),
         UserRepositoryItemView {
-        override var pos = -1
+        override var pos = INVALID_INDEX
 
         override fun setName(text: String) = with(vb) {
             userRepositoryName.text = text
