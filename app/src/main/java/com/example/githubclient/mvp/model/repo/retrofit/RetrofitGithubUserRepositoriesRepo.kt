@@ -10,28 +10,24 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class RetrofitGithubUserRepositoriesRepo(
     private val api: IDataSource,
-    val networkStatus: INetworkStatus,
-    val roomGithubReposCache: IRoomGithubRepositoriesCache
+    private val networkStatus: INetworkStatus,
+    private val roomGithubReposCache: IRoomGithubRepositoriesCache
 ) : IGithubUserRepositoriesRepo {
 
-    override fun getRepositories(user: GithubUser): Single<List<GithubRepository>>? =
+    override fun getRepositories(user: GithubUser) =
         networkStatus.isOnlineSingle().flatMap { isOnline ->
             if (isOnline) {
                 user.reposUrl?.let { url ->
                     api.getUserRepositories(url)
                         .flatMap { repositories ->
-                            Single.fromCallable {
-                                roomGithubReposCache.insertRepos(user, repositories)
-                                repositories
-                            }
+                            roomGithubReposCache.insertRepos(user, repositories)
+                                .toSingleDefault(repositories)
                         }
                 } ?: Single.error<List<GithubRepository>>(
-                    RuntimeException("User has no repos url ")
+                    RuntimeException("User has no repos url")
                 ).subscribeOn(Schedulers.io())
             } else {
-                Single.fromCallable {
-                    roomGithubReposCache.findReposForUser(user)
-                }
+                roomGithubReposCache.findReposForUser(user)
             }
         }.subscribeOn(Schedulers.io())
 }

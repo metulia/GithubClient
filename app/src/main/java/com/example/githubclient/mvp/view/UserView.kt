@@ -8,5 +8,6 @@ import moxy.viewstate.strategy.StateStrategyType
 interface UserView : MvpView {
     fun init()
     fun setUserLogin(login: String)
+    fun setUserAvatar(url: String)
     fun updateList()
 }

@@ -1,11 +1,13 @@
 package com.example.githubclient.mvp.presenter
 
+import com.example.githubclient.di.user.module.IUserScopeContainer
 import com.example.githubclient.mvp.model.entity.GithubRepository
 import com.example.githubclient.mvp.model.entity.GithubUser
 import com.example.githubclient.mvp.model.repo.retrofit.IGithubUserRepositoriesRepo
 import com.example.githubclient.mvp.presenter.list.IUserRepositoryListPresenter
 import com.example.githubclient.mvp.view.UserView
 import com.example.githubclient.mvp.view.list.UserRepositoryItemView
+import com.example.githubclient.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
@@ -21,7 +23,11 @@ class UserPresenter(
     @Inject
     lateinit var router: Router
     @Inject
+    lateinit var screens: IScreens
+    @Inject
     lateinit var uiScheduler: Scheduler
+    @Inject
+    lateinit var repositoryScopeContainer: IUserScopeContainer
 
     class UserRepositoriesListPresenter : IUserRepositoryListPresenter {
 
@@ -45,9 +51,11 @@ class UserPresenter(
         loadData()
 
         user.login?.let { viewState.setUserLogin(it) }
+        user.avatarUrl?.let { viewState.setUserAvatar(it) }
 
         userRepositoriesListPresenter.itemClickListener = { itemView ->
             val repository = userRepositoriesListPresenter.repositories[itemView.pos]
+            router.navigateTo(screens.repoInfo(repository))
         }
     }
 
@@ -66,5 +74,10 @@ class UserPresenter(
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        repositoryScopeContainer.releaseUserScope()
+        super.onDestroy()
     }
 }

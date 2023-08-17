@@ -5,4 +5,10 @@
     <string name="counter_three">Счетчик 3</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="repository_name">Repository_name:</string>
+    <string name="forks_count">Forks_count:</string>
+    <string name="repository_language">Repository_language:</string>
+    <string name="repository_description">Repository_description:</string>
+    <string name="created_at">Created_at:</string>
+    <string name="updated_at">Updated_at:</string>
 </resources>
